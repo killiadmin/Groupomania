@@ -1,6 +1,48 @@
 <script>
 export default {
-    name: "pageLogin",
+    name: "login",
+      data() { 
+        return {
+          mode: "login",
+          email:'',
+          username:'',
+          name:'',
+          password:'',
+        }
+      },
+    computed: {
+      validateFields() {
+        if (this.mode == "create") {
+          if (this.email != "" && this.password != "" && this.name != "" && this.username != "") {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          if(this.email != "" && this.password != "") {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+    },
+    methods: {
+      switchToCreateAccount() {
+        this.mode = "create";
+      },
+      switchToLogin() {
+        this.mode = "login";
+      },
+      createAccount() {
+        this.$store.dispatch('createAccount', {
+          email: this.email,
+          name: this.name,
+          username: this.username,
+          password: this.password
+        })
+      }
+    }
 }
 </script>
 
@@ -9,18 +51,28 @@ export default {
   <main class="form-signin">
   <form>
     <img class="d-block mx-auto" src="../../assets/icon-left-font-monochrome-black.png" alt="" width="300" height="300">
-    <h1 class="h3 mb-3 fw-normal text-center">Accéder à mon espace</h1>
-
+    <h1 class="h3 mb-3 fw-normal text-center" v-if="mode == 'login'">Accéder à mon espace</h1>
+    <h1 class="h3 mb-3 fw-normal text-center" v-else>Inscription</h1>
+    <button class="w-100 btn btn-lg btn-warning" type="submit" v-if="mode == 'login'" @click.prevent="switchToCreateAccount()">Créer un compte</button>
+    <button class="w-100 btn btn-lg btn-light" type="submit" v-else @click.prevent="switchToLogin()">Connexion</button>
     <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <input v-model="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
       <label for="floatingInput">Adresse mail</label>
     </div>
+        <div class="form-floating" v-if="mode == 'create'">
+      <input v-model="name" class="form-control" id="floatingInput" placeholder="name">
+      <label for="floatingInput">Nom</label>
+    </div>
+    <div class="form-floating" v-if="mode == 'create'">
+      <input v-model="username" class="form-control" id="floatingInput" placeholder="username">
+      <label for="floatingInput">Prenom</label>
+    </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <input v-model="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
       <label for="floatingPassword">Mot de passe</label>
     </div>
-
-    <button class="w-100 btn btn-lg btn-warning" type="submit">Connexion</button>
+    <button class="w-100 btn btn-lg btn-success" type="submit" :disabled=!validateFields v-if="mode == 'login'" >Se connecter</button>
+    <button @click.prevent="createAccount()" class="w-100 btn btn-lg btn-success" type="submit" :disabled=!validateFields v-else >Créer mon compte</button>
   </form>
 </main>
 </div>
@@ -41,12 +93,7 @@ body {
 .form-signin {
   width: 100%;
   max-width: 330px;
-  padding: 15px;
   margin: auto;
-}
-
-.form-signin .checkbox {
-  font-weight: 400;
 }
 
 .form-signin .form-floating:focus-within {
@@ -71,6 +118,10 @@ body {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+}
+
+.btn-lg {
+  margin: 5px 0 5px 0;
 }
   
 @media (min-width: 768px) {

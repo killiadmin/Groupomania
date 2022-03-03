@@ -15,9 +15,6 @@ export default {
 <div class="container">
     <postCard></postCard>
         <card></card>
-        <card></card>
-        <card></card>
-        <card></card>
     </div>
 </template>
 

@@ -1,11 +1,16 @@
 <script>
 export default {
-    name: "avatar"
+    name: "avatar",
+    data() {
+        return {
+            image: "http://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+        }
+    }
 }
 </script>
 
 <template>
-<img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" alt="Avatar"/>
+<img :src=image class="rounded-circle" alt="Avatar"/>
 </template>
 
 <style>

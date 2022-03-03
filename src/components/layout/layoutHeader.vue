@@ -10,8 +10,7 @@ export default {
       <div class="container d-flex flex-wrap justify-content-end">
         <div class="text-end">
           <button type="button" class="btn btn-secondary text-light me-2">Home</button>
-          <button type="button" class="btn btn-light me-2">Connexion</button>
-          <button type="button" class="btn btn-warning">Inscription</button>
+          <button type="button" class="btn btn-secondary text-light me-2">Mon profil</button>
         </div>
       </div>
     </div>
